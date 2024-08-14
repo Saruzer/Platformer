@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Assets.Scripts.Entities.Player
 {
     public class Player : MonoBehaviour
     {
-        protected State playerState;
         protected Rigidbody2D rb;
         public virtual void Start()
         {

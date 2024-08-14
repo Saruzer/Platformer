@@ -1,8 +1,6 @@
-﻿using System;
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace Assets.Scripts.Player
+namespace Assets.Scripts.Entities.Player
 {
     public class Jumping : Player
     {
@@ -12,18 +10,34 @@ namespace Assets.Scripts.Player
         [SerializeField] private LayerMask _groundMask;
         [field: SerializeField] public bool IsGrounded { get; private set; }
         [field: SerializeField] public bool IsJumping { get; private set; }
+        [field: SerializeField] public bool IsUnlimitedJumps { get; set; }
+        private void FixedUpdate()
+        {
+            Jump();
+        }
         public void Jump()
         {
-            float y = Input.GetAxisRaw("Vertical") * _jumpImpulse * Time.fixedDeltaTime;
-            if (CanJump() && y > 0)
+            float y = Input.GetAxisRaw("Vertical");
+            IsGrounded = Physics2D.OverlapCircle(_footPos.position, _jumpRadius, _groundMask);
+            if(y > 0)
             {
-                rb.velocity = new Vector2(rb.velocityX, y);
-                IsJumping = true;
+                if (CanJump() || IsUnlimitedJumps)
+                {
+                    ActiveJump();
+                }
             }
+        }
+        private void ActiveJump()
+        {
+            rb.velocity = new Vector2(rb.velocityX, _jumpImpulse * Time.fixedDeltaTime);
+            IsJumping = true;
+        }
+        public void InstantJump()
+        {
+            ActiveJump();
         }
         private bool CanJump()
         {
-            IsGrounded = Physics2D.OverlapCircle(_footPos.position, _jumpRadius, _groundMask);
             if (IsJumping == false)
             {
                 return IsGrounded;
