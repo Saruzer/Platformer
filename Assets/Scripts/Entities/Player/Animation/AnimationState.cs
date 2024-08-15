@@ -3,5 +3,6 @@ public enum AnimationState
     Idle,
     Run,
     Jump,
-    Fall
+    Fall,
+    WallJump
 }

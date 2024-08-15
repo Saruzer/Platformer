@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Entities.Player
 {
-    public class HorizontalMovement : Player, IMove
+    public class HorizontalMovement : Entity, IMove
     {
 
         [SerializeField] private float _speed;
